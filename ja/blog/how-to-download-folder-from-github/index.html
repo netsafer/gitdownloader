@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="ja" dir="ltr"><head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><!-- Google 只认 BMP/GIF/ICO/PNG/JPEG/PPM/TIFF, 不认 SVG: ico 必须排在 svg 前面 --><link rel="icon" href="../../../favicon.ico" sizes="32x32"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="apple-touch-icon" href="../../../apple-touch-icon.png"><meta name="generator" content="Astro v7.3.2"><style>@font-face{font-family:Atkinson-c7f4c4e8b285552f;src:url("../../../static/fonts/89758defcfa85239.woff") format("woff");font-display:swap;font-weight:400;font-style:normal;}@font-face{font-family:Atkinson-c7f4c4e8b285552f;src:url("../../../static/fonts/14aa8dd5744dd4bc.woff") format("woff");font-display:swap;font-weight:700;font-style:normal;}@font-face{font-family:"Atkinson-c7f4c4e8b285552f fallback: Arial";src:local("Arial");font-display:swap;font-weight:400;font-style:normal;size-adjust:99.3717%;ascent-override:80.1033%;descent-override:25.2587%;line-gap-override:0%;}@font-face{font-family:"Atkinson-c7f4c4e8b285552f fallback: Arial Bold";src:local("Arial Bold");font-display:swap;font-weight:700;font-style:normal;size-adjust:92.2954%;ascent-override:86.2448%;descent-override:27.1953%;line-gap-override:0%;}:root{--font-atkinson:Atkinson-c7f4c4e8b285552f,"Atkinson-c7f4c4e8b285552f fallback: Arial","Atkinson-c7f4c4e8b285552f fallback: Arial Bold",sans-serif;}</style><link rel="preload" href="../../../static/fonts/89758defcfa85239.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="../../../static/fonts/14aa8dd5744dd4bc.woff" as="font" type="font/woff" crossorigin><!-- Canonical + hreflang --><link rel="canonical" href="../../../ja/blog/how-to-download-folder-from-github/"><link rel="alternate" hreflang="de" href="../../../de/blog/how-to-download-folder-from-github/"><link rel="alternate" hreflang="en" href="../../../blog/how-to-download-folder-from-github/"><link rel="alternate" hreflang="es" href="../../../es/blog/how-to-download-folder-from-github/"><link rel="alternate" hreflang="fr" href="../../../fr/blog/how-to-download-folder-from-github/"><link rel="alternate" hreflang="ja" href="../../../ja/blog/how-to-download-folder-from-github/"><link rel="alternate" hreflang="ko" href="../../../ko/blog/how-to-download-folder-from-github/"><link rel="alternate" hreflang="pt-BR" href="../../../pt/blog/how-to-download-folder-from-github/"><link rel="alternate" hreflang="x-default" href="../../../blog/how-to-download-folder-from-github/"><!-- Primary Meta --><title>GitHub でフォルダだけをダウンロードする方法（リポジトリ全体をクローンせずに）</title><meta name="title" content="GitHub でフォルダだけをダウンロードする方法（リポジトリ全体をクローンせずに）"><meta name="description" content="GitHub にフォルダ単体のダウンロード機能はありません。ZIP でフォルダだけを取得する5つの方法と、それぞれで起きるエラーの対処法を解説します。"><!-- Open Graph --><meta property="og:type" content="website"><meta property="og:url" content="../../../ja/blog/how-to-download-folder-from-github/"><meta property="og:title" content="GitHub でフォルダだけをダウンロードする方法（リポジトリ全体をクローンせずに）"><meta property="og:description" content="GitHub にフォルダ単体のダウンロード機能はありません。ZIP でフォルダだけを取得する5つの方法と、それぞれで起きるエラーの対処法を解説します。"><meta property="og:site_name" content="GitDownloader"><meta property="og:locale" content="ja_JP"><!-- Twitter --><meta name="twitter:card" content="summary"><meta name="twitter:title" content="GitHub でフォルダだけをダウンロードする方法（リポジトリ全体をクローンせずに）"><meta name="twitter:description" content="GitHub にフォルダ単体のダウンロード機能はありません。ZIP でフォルダだけを取得する5つの方法と、それぞれで起きるエラーの対処法を解説します。"><!-- JSON-LD --><!-- GTM --><!-- Umami --><link rel="stylesheet" href="../../../static/Layout.CnuOSqmO.css"></head><body class="flex min-h-screen flex-col bg-ink-950"><header class="sticky top-0 z-40 border-b border-line/70 bg-ink-950/80 backdrop-blur-xl"><div class="container-x flex h-16 items-center justify-between gap-4"><a href="../../../ja/index.html" class="flex items-center gap-2.5 shrink-0" aria-label="GitDownloader"><svg class="h-9 w-9" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GitDownloader"><defs><linearGradient id="gd-logo" x1="8" y1="4" x2="40" y2="44" gradientUnits="userSpaceOnUse"><stop stop-color="#7dd3fc"></stop><stop offset="0.5" stop-color="#0ea5e9"></stop><stop offset="1" stop-color="#0369a1"></stop></linearGradient></defs><circle cx="24" cy="24" r="22" fill="url(#gd-logo)"></circle><!-- solid folder: stays legible down to 16px, unlike a stroked outline --><path d="M12 18.5v-2.9a2.1 2.1 0 0 1 2.1-2.1h6.4l2.6 3.2H34a2.1 2.1 0 0 1 2.1 2.1V32a2.4 2.4 0 0 1-2.4 2.4H14.4a2.4 2.4 0 0 1-2.4-2.4z" fill="#f0f9ff"></path><!-- download arrow --><path d="M24 21.7v6.8" stroke="#075985" stroke-width="3.2" stroke-linecap="round"></path><path d="m20.2 24.7 3.8 3.8 3.8-3.8" stroke="#075985" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="text-lg font-bold text-white tracking-tight">GitDownloader</span></a><nav class="hidden items-center gap-1 md:flex"><a href="../../../ja/index.html" class="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-300 transition hover:text-white hover:bg-white/5">GitHubフォルダをダウンロード</a><a href="../../../ja/faq/index.html" class="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-300 transition hover:text-white hover:bg-white/5">FAQ</a><a href="../../../ja/blog/index.html" class="rounded-lg px-3.5 py-2 text-sm font-medium text-white bg-white/5">ブログ</a></nav><div class="flex items-center gap-2"><details class="lang-selector relative" data-astro-cid-fe4j42sm><summary class="btn-ghost cursor-pointer list-none select-none" aria-label="Select language" data-astro-cid-fe4j42sm><svg class="h-3.5 w-5 rounded-[2px]" viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="3" height="2" fill="#fff"></rect><circle cx="1.5" cy="1" r="0.6" fill="#BC002D"></circle></svg><span class="uppercase tracking-wide" data-astro-cid-fe4j42sm>ja</span><i class="fa-solid fa-chevron-down ml-0.5 text-[10px] opacity-70" aria-hidden="true" data-astro-cid-fe4j42sm></i></summary><ul class="absolute right-0 z-50 mt-2 min-w-[10rem] overflow-hidden rounded-xl border border-line bg-ink-900 p-1 shadow-2xl shadow-black/50" data-astro-cid-fe4j42sm><li data-astro-cid-fe4j42sm><a href="../../../blog/how-to-download-folder-from-github/index.html" hreflang="en" lang="en" class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition" data-astro-cid-fe4j42sm><svg class="h-3.5 w-5 rounded-[2px]" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="60" height="40" fill="#012169"></rect><path d="M0 0 L60 40 M60 0 L0 40" stroke="#fff" stroke-width="8"></path><path d="M0 0 L60 40 M60 0 L0 40" stroke="#C8102E" stroke-width="3"></path><path d="M30 0 V40 M0 20 H60" stroke="#fff" stroke-width="13"></path><path d="M30 0 V40 M0 20 H60" stroke="#C8102E" stroke-width="8"></path></svg><span data-astro-cid-fe4j42sm>English</span></a></li><li data-astro-cid-fe4j42sm><a href="../../../de/blog/how-to-download-folder-from-github/index.html" hreflang="de" lang="de" class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition" data-astro-cid-fe4j42sm><svg class="h-3.5 w-5 rounded-[2px]" viewBox="0 0 5 3" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="5" height="3" fill="#FFCE00"></rect><rect width="5" height="2" fill="#D00A0A"></rect><rect width="5" height="1" fill="#111"></rect></svg><span data-astro-cid-fe4j42sm>Deutsch</span></a></li><li data-astro-cid-fe4j42sm><a href="../../../fr/blog/how-to-download-folder-from-github/index.html" hreflang="fr" lang="fr" class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition" data-astro-cid-fe4j42sm><svg class="h-3.5 w-5 rounded-[2px]" viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="3" height="2" fill="#ED2939"></rect><rect width="2" height="2" fill="#fff"></rect><rect width="1" height="2" fill="#002395"></rect></svg><span data-astro-cid-fe4j42sm>Français</span></a></li><li data-astro-cid-fe4j42sm><a href="../../../es/blog/how-to-download-folder-from-github/index.html" hreflang="es" lang="es" class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition" data-astro-cid-fe4j42sm><svg class="h-3.5 w-5 rounded-[2px]" viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="3" height="2" fill="#AA151B"></rect><rect y="0.5" width="3" height="1" fill="#F1BF00"></rect></svg><span data-astro-cid-fe4j42sm>Español</span></a></li><li data-astro-cid-fe4j42sm><a href="../../../ja/blog/how-to-download-folder-from-github/index.html" hreflang="ja" lang="ja" class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-white bg-brand-500/15 font-semibold" data-astro-cid-fe4j42sm><svg class="h-3.5 w-5 rounded-[2px]" viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="3" height="2" fill="#fff"></rect><circle cx="1.5" cy="1" r="0.6" fill="#BC002D"></circle></svg><span data-astro-cid-fe4j42sm>日本語</span><i class="fa-solid fa-check ml-auto text-brand-400 text-xs" aria-hidden="true" data-astro-cid-fe4j42sm></i></a></li><li data-astro-cid-fe4j42sm><a href="../../../pt/blog/how-to-download-folder-from-github/index.html" hreflang="pt-BR" lang="pt" class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition" data-astro-cid-fe4j42sm><svg class="h-3.5 w-5 rounded-[2px]" viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="3" height="2" fill="#009B3A"></rect><polygon points="1.5,0.2 2.8,1 1.5,1.8 0.2,1" fill="#FEDF00"></polygon><circle cx="1.5" cy="1" r="0.45" fill="#002776"></circle></svg><span data-astro-cid-fe4j42sm>Português (Brasil)</span></a></li><li data-astro-cid-fe4j42sm><a href="../../../ko/blog/how-to-download-folder-from-github/index.html" hreflang="ko" lang="ko" class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition" data-astro-cid-fe4j42sm><svg class="h-3.5 w-5 rounded-[2px]" viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="3" height="2" fill="#fff"></rect><circle cx="1.5" cy="1" r="0.45" fill="#CD2E3A"></circle><path d="M1.05 1 A0.45 0.45 0 0 1 1.95 1 A0.225 0.225 0 0 0 1.5 1 A0.225 0.225 0 0 1 1.05 1 Z" fill="#0047A0"></path></svg><span data-astro-cid-fe4j42sm>한국어</span></a></li></ul></details><button id="nav-toggle" class="btn-ghost !px-2.5 md:hidden" aria-label="Menu" aria-controls="nav-panel" aria-expanded="false" type="button"><i class="fa-solid fa-bars" aria-hidden="true"></i></button></div></div><div id="nav-panel" class="hidden border-t border-line/70 md:hidden"><nav class="container-x flex flex-col py-2"><a href="../../../ja/index.html" class="rounded-lg px-2 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/5 hover:text-white">GitHubフォルダをダウンロード</a><a href="../../../ja/faq/index.html" class="rounded-lg px-2 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/5 hover:text-white">FAQ</a><a href="../../../ja/blog/index.html" class="rounded-lg px-2 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/5 hover:text-white">ブログ</a></nav></div></header><script type="module">var e=document.getElementById(`nav-toggle`),t=document.getElementById(`nav-panel`);e&&t&&e.addEventListener(`click`,()=>{let n=t.classList.toggle(`hidden`)===!1;e.setAttribute(`aria-expanded`,String(n))});</script><main class="flex-1"><article class="container-x py-12 lg:py-16"><div class="mx-auto max-w-[72ch]"><a href="../../../ja/blog/index.html" class="inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-brand-400"><i class="fa-solid fa-arrow-left text-xs" aria-hidden="true"></i>ブログ</a><header class="mt-8"><p class="text-sm text-slate-500"><time datetime="2026-09-15T00:00:00.000Z">2026年9月15日</time></p><h1 class="mt-2 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl">GitHub でフォルダだけをダウンロードする方法（リポジトリ全体をクローンせずに）</h1></header><div class="prose mt-8"><p>GitHub でほとんどどのリポジトリを開いても、緑色の <strong>Code</strong> ボタンがあります。そこでできることは2つだけです。プロジェクト全体をクローンするか、プロジェクト全体の ZIP をダウンロードするかです。<code>src/components</code>、<code>docs/examples</code>、あるいは <code>templates</code> フォルダの中に入ってもボタンは同じ場所にありますが、得られるものはやはり全体です。GitHub の公式ドキュメントもこの点ははっきり書いています。できるのは<em>リポジトリのファイルのスナップショット</em>のダウンロード、クローン、フォークの3つだけです。フォルダ単体をダウンロードする第4の選択肢はありません。</p>
+<p>そのギャップのせいで、「github フォルダ ダウンロード」は GitHub 関連で最も検索される質問の一つになり、見つかる回答もばらばらになっています。2024年1月に使えなくなった SVN コマンドを今も勧めている記事もあれば、結局はリポジトリ全体をダウンロードしてしまう5行の Git レシピを紹介している記事もあります。本記事では、現在実際に機能するすべての方法と、それぞれに伴うコスト、そしてどの方法を選ぶかを決める具体的なエラー（レート制限、切り捨てられたファイル一覧、LFS ポインタファイル）を解説します。</p>
+<h2 id="結論用途別に方法を選ぶ">結論：用途別に方法を選ぶ</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>インストール要否</th>
+<th>プライベートリポジトリ</th>
+<th>Git 履歴の保持</th>
+<th>向いている用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ブラウザ型フォルダダウンローダー</td>
+<td>不要</td>
+<td>可能（トークンを使用）</td>
+<td>保持しない</td>
+<td>単発のダウンロード、フォルダサイズがまちまちな場合</td>
+</tr>
+<tr>
+<td>リポジトリ ZIP（公式）</td>
+<td>不要</td>
+<td>可能（トークンを使用）</td>
+<td>保持しない</td>
+<td>ほとんどのファイルが必要な小規模リポジトリ</td>
+</tr>
+<tr>
+<td><code>git sparse-checkout</code></td>
+<td>Git</td>
+<td>可能（認証情報を使用）</td>
+<td>保持する</td>
+<td>今後も更新を取得し続ける場合</td>
+</tr>
+<tr>
+<td>REST API + <code>curl</code></td>
+<td>curl、jq</td>
+<td>可能（トークンを使用）</td>
+<td>保持しない</td>
+<td>スクリプト、CI、繰り返し実行するジョブ</td>
+</tr>
+<tr>
+<td>単一ファイルのコピー</td>
+<td>不要</td>
+<td>可能（API 経由）</td>
+<td>保持しない</td>
+<td>1つのフォルダから2〜3ファイルだけ欲しい場合</td>
+</tr>
+</tbody>
+</table>
+<p>ZIP だけが欲しいなら、ブラウザ経由が最速です。フォルダの URL を <a href="../../../ja/index.html">GitDownloader のホームページツール</a> に貼り付けると、そのディレクトリだけをまとめてくれます。本記事の残りでは、他の選択肢が存在する理由と、そちらが適している場面を説明します。</p>
+<h2 id="github-にこのフォルダをダウンロードボタンがない理由">GitHub に「このフォルダをダウンロード」ボタンがない理由</h2>
+<p>これは手抜きではなく、Git のデータ保存方式から必然的に生じる制約です。</p>
+<p>Git リポジトリはオブジェクトの有向グラフです。ファイルは <strong>blob</strong> オブジェクトに存在し、ディレクトリは名前・モード・ハッシュの一覧を持つ <strong>tree</strong> オブジェクトで、そのハッシュが blob または別の tree を指します。ブランチは1つのコミットへのポインタであり、そのコミットは1つのルート tree を指し、ルート tree がスナップショット全体を推移的に表現します。この構造の中に「<code>src/assets</code> フォルダを独立してダウンロード可能な単位として扱う」ものはありません。サブツリーは親 tree の中でのみ意味を持ちます。</p>
+<p>一方、Subversion はディレクトリを第一級のチェックアウト対象として扱っていました。だからこそ古い SVN ブリッジが定番の回避策だったのです。Git のモデルは履歴・ブランチ・完全性をもたらしますが、その代償として<em>部分的</em>な取得はリポジトリの概念ではなくクライアント側の問題になります。</p>
+<p>そのため GitHub のインターフェースは、提供コストが低く曖昧さのないものだけを用意しています。</p>
+<ul>
+<li><strong>1つの ref の ZIP。</strong> <code>https://github.com/{owner}/{repo}/archive/refs/heads/{branch}.zip</code> はそのブランチのルート tree のスナップショットをストリーム配信します。便利ですが、常にブランチ全体です。</li>
+<li><strong>Git Trees API。</strong> これは1回のリクエストでサブツリーを列挙<em>できます</em>。フォルダダウンロードツールは、当サイトのものも含め、すべてこの API を土台にしています。</li>
+</ul>
+<p>つまりフォルダのダウンロードは、GitHub が代わりにやってくれる機能ではありません。パス配下のファイルを列挙し、1つずつ取得し、ローカルで ZIP にまとめるという処理を、ツールやスクリプトが GitHub の API を<em>使って</em>行うものなのです。</p>
+<h2 id="方法1--ブラウザベースのフォルダダウンローダーインストール不要">方法1 — ブラウザベースのフォルダダウンローダー（インストール不要）</h2>
+<p>ほとんどの人にとって最短の方法であり、インストールもターミナルも不要な唯一の方法です。</p>
+<ol>
+<li>GitHub で目的のフォルダを開き、ブランチセレクタが目的のブランチになっていることを確認します。</li>
+<li>アドレスバーから URL をコピーします。<code>https://github.com/owner/repo/tree/main/path/to/folder</code> のような形式で、<code>/tree/&lt;branch&gt;/&lt;path&gt;</code> の形が重要です。</li>
+<li>URL を <a href="../../../ja/index.html">ホームページツール</a> の URL 入力欄に貼り付け、<strong>Download ZIP</strong> を押します。</li>
+<li>ファイルはブラウザ内で列挙・取得・圧縮され、ダウンロードフォルダに保存されます。</li>
+</ol>
+<p>この段階で優れたツールと壊れたツールを分けるのは、入力欄ではありません。その後に何が起きるかです。</p>
+<ul>
+<li><strong>スラッシュを含むブランチ名。</strong> <code>release/2.1</code> は有効なブランチ名です。そのためツールは、最初の <code>/</code> で区切ると決め打ちするのではなく、より長いプレフィックスを順に試して、ブランチ名の終わりとフォルダパスの始まりを特定する必要があります。</li>
+<li><strong>非常に大きなディレクトリ。</strong> Trees API は、再帰的な一覧が10万エントリまたは7 MBを超えると <code>&quot;truncated&quot;: true</code> を返します。このフラグを無視するツールは、ファイルが欠けた ZIP を黙って渡してきます。正しい動作は、サブツリーを1階層ずつ列挙する方式にフォールバックすることです。</li>
+<li><strong>レート制限。</strong> 未認証の場合、API リクエストは IP アドレスごとに1時間あたり60回、トークンがあれば5,000回です。ディレクトリを1つずつ列挙するツールは、階層の深いフォルダで未認証の枠をすぐに使い切ります。途中でダウンロードに失敗し、1時間後にまた成功するのはこのためです。</li>
+<li><strong>Git LFS。</strong> Large File Storage を使うリポジトリでは、実体の代わりに小さなポインタファイルが保存されています。このポインタを検出しないと、ZIP は形式的には正しいのにまったく役に立たないものになります。</li>
+</ul>
+<p>自分が所有している、またはアクセス権を持つリポジトリであれば、任意のトークン欄に <strong>fine-grained パーソナルアクセストークン</strong> を貼り付けてください。GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens の順に進み、対象のリポジトリだけに限定して <strong>Contents: Read-only</strong> を付けて発行します。トークンはご自身のブラウザに保存され、<code>api.github.com</code> にのみ送信されます。途中でファイルを読み取るサーバーは存在しません。詳しくは <a href="../../../ja/faq/index.html">FAQ</a> をご覧ください。</p>
+<h2 id="方法2--公式の手段リポジトリ全体をダウンロードする">方法2 — 公式の手段：リポジトリ全体をダウンロードする</h2>
+<p>意外なほど多くの場面で今も正解であり、UI を完全に迂回できる直接 URL を知っておく価値があります。</p>
+<p><strong>UI から行う場合：</strong> リポジトリページ → <strong>Code</strong> → <strong>Download ZIP</strong>。ファイルは <code>repo-main.zip</code>（<code>master</code> など、デフォルトブランチ名に応じて変わります）という名前で保存されます。</p>
+<p><strong>ブックマークやスクリプトに使える直接リンク：</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="plaintext"><code><span class="line"><span># ブランチのアーカイブ（公開リポジトリ、認証不要）</span></span>
+<span class="line"><span>https://github.com/{owner}/{repo}/archive/refs/heads/{branch}.zip</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 同じファイルを archive ホストから取得</span></span>
+<span class="line"><span>https://codeload.github.com/{owner}/{repo}/zip/refs/heads/{branch}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># API の zipball — トークンを送ればプライベートリポジトリでも動作</span></span>
+<span class="line"><span>https://api.github.com/repos/{owner}/{repo}/zipball/{ref}</span></span></code></pre>
+<p>リポジトリが小さい場合、そのファイルの大半が本当に必要な場合、Git をインストールしていない場合、リリースタグが指す正確なコミットが欲しい場合にはこれを選びましょう。コストは比例します。クローンで800 MB になるモノレポは ZIP でも約800 MB で、さらに展開して不要な95%を削除する時間もかかります。しかも ZIP はあくまでスナップショットです。履歴もリモートも <code>git pull</code> もありません。</p>
+<h2 id="方法3--git-sparse-checkout-を正しく使う">方法3 — <code>git sparse-checkout</code> を正しく使う</h2>
+<p><strong>フォルダと、動作する Git チェックアウトの両方</strong>が欲しい場合、つまり後から更新を取得したい場合は sparse checkout が適切なツールです。多くのチュートリアルは古い手順を載せているので、ここでは現行の方法を示します。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> clone</span><span style="color:#79B8FF"> --filter=blob:none</span><span style="color:#79B8FF"> --sparse</span><span style="color:#9ECBFF"> https://github.com/owner/repo.git</span></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> repo</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> sparse-checkout</span><span style="color:#9ECBFF"> set</span><span style="color:#9ECBFF"> path/to/folder</span></span></code></pre>
+<p>重要なポイントは次のとおりです。</p>
+<ul>
+<li><code>--filter=blob:none</code> を付けると <strong>partial clone（部分クローン）</strong> になります。Git はコミットと tree オブジェクトを取得しますが、チェックアウトするまでファイルの中身は取得しません。これがないと、リポジトリ内のすべての blob をダウンロードして、その大半を捨てることになります。</li>
+<li><code>--sparse</code> は sparse-checkout ファイルを自動で初期化するので、<code>.git/info/sparse-checkout</code> を手で書く必要はありません。</li>
+<li><code>git sparse-checkout set</code> は <strong>cone モード</strong> を使います。これはディレクトリ単位でマッチするため、大きなリポジトリでは格段に高速です。後からパスを追加するには、複数のパスを指定して同じコマンドを再実行します。作業ツリーがずれた場合は <code>git sparse-checkout reapply</code> を実行してください。</li>
+<li>sparse checkout には Git 2.25 以降、partial clone（<code>--filter</code>）には 2.19 以降が必要です。</li>
+</ul>
+<p>記事や Stack Overflow の回答で今も見かける古い手順、つまり <code>git init</code> → <code>git config core.sparseCheckout true</code> → <code>echo &quot;path/&quot; &gt;&gt; .git/info/sparse-checkout</code> → <code>git pull origin main</code> という流れは、確かに動作しますが、作業ツリーを絞り込む<em>前に</em>完全な履歴とすべての blob をダウンロードしてしまいます。結果として、目的のフォルダに加えて、ファイル本体より何倍も大きい <code>.git</code> ディレクトリが残ります。</p>
+<p>本当のトレードオフはここです。sparse checkout で得られるのはアーカイブではなくリポジトリです。別のプロジェクトに取り込むためのクリーンな ZIP が欲しかった場合、手元にはリモートが紐付いたチェックアウトが残ります。コントリビュートする予定ならまさに望みどおりですが、そうでなければ純粋なオーバーヘッドです。</p>
+<h2 id="方法4--github-rest-api-でスクリプト化する">方法4 — GitHub REST API でスクリプト化する</h2>
+<p>繰り返し実行するジョブ、たとえば共有フォルダを別のリポジトリに取り込む、CI でテンプレートを取得する、毎晩ドキュメントのアセットを更新するといった用途では、ヘッドレスで実行できる手段が必要です。API には2つの構成要素があります。</p>
+<p><strong>Trees API（サブツリー全体を1回のリクエストで取得）：</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="plaintext"><code><span class="line"><span>GET https://api.github.com/repos/{owner}/{repo}/git/trees/{ref}?recursive=1</span></span></code></pre>
+<p>レスポンスには、各エントリの <code>path</code> と <code>type</code> を持つフラットな <code>tree</code> 配列が含まれます。<code>type: &quot;blob&quot;</code> のエントリがファイルです。注意点はドキュメントに記載された上限です。<code>recursive=1</code> では配列が <strong>10万エントリかつ7 MB</strong> に制限され、それを超えるとレスポンスに <code>&quot;truncated&quot;: true</code> が設定されます。その場合の正式な対処法は、tree を非再帰で取得し、サブツリーを自分でたどることです。</p>
+<p><strong>Contents API（ディレクトリごとに1回のリクエスト）：</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="plaintext"><code><span class="line"><span>GET https://api.github.com/repos/{owner}/{repo}/contents/{path}?ref={ref}</span></span></code></pre>
+<p>これは各ファイルの <code>download_url</code> を含む一覧を返し、これまで多くのブラウザツールが使ってきたものです。切り捨ては起きませんが、ディレクトリごとに1リクエストを消費するため、階層が深いとレート制限を使い切ってしまいます。</p>
+<p>以下は Trees API と <code>raw.githubusercontent.com</code> を使った、完結した小さなスクリプトです。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E1E4E8">OWNER</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">octocat</span></span>
+<span class="line"><span style="color:#E1E4E8">REPO</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">Spoon-Knife</span></span>
+<span class="line"><span style="color:#E1E4E8">REF</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">main</span></span>
+<span class="line"><span style="color:#E1E4E8">PREFIX</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">src/assets</span></span>
+<span class="line"><span style="color:#E1E4E8">TOKEN</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">&quot;&quot;</span><span style="color:#6A737D">   # プライベートリポジトリの場合は設定: export TOKEN=ghp_xxx</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">AUTH</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">[ </span><span style="color:#F97583">-n</span><span style="color:#9ECBFF"> &quot;</span><span style="color:#E1E4E8">$TOKEN</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8"> ] &amp;&amp; AUTH</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">-H</span><span style="color:#9ECBFF"> &quot;Authorization: Bearer </span><span style="color:#E1E4E8">$TOKEN</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 1. 信頼する前に、一覧が切り捨てられていないか確認する</span></span>
+<span class="line"><span style="color:#B392F0">curl</span><span style="color:#79B8FF"> -s</span><span style="color:#9ECBFF"> &quot;${</span><span style="color:#E1E4E8">AUTH</span><span style="color:#9ECBFF">[</span><span style="color:#F97583">@</span><span style="color:#9ECBFF">]}&quot;</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#9ECBFF">  &quot;https://api.github.com/repos/</span><span style="color:#E1E4E8">$OWNER</span><span style="color:#9ECBFF">/</span><span style="color:#E1E4E8">$REPO</span><span style="color:#9ECBFF">/git/trees/</span><span style="color:#E1E4E8">$REF</span><span style="color:#9ECBFF">?recursive=1&quot;</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#F97583">  |</span><span style="color:#B392F0"> jq</span><span style="color:#79B8FF"> -r</span><span style="color:#9ECBFF"> &#39;.truncated&#39;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 2. プレフィックス配下のすべてのファイルパスをリストに書き出す</span></span>
+<span class="line"><span style="color:#B392F0">curl</span><span style="color:#79B8FF"> -s</span><span style="color:#9ECBFF"> &quot;${</span><span style="color:#E1E4E8">AUTH</span><span style="color:#9ECBFF">[</span><span style="color:#F97583">@</span><span style="color:#9ECBFF">]}&quot;</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#9ECBFF">  &quot;https://api.github.com/repos/</span><span style="color:#E1E4E8">$OWNER</span><span style="color:#9ECBFF">/</span><span style="color:#E1E4E8">$REPO</span><span style="color:#9ECBFF">/git/trees/</span><span style="color:#E1E4E8">$REF</span><span style="color:#9ECBFF">?recursive=1&quot;</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#F97583">  |</span><span style="color:#B392F0"> jq</span><span style="color:#79B8FF"> -r</span><span style="color:#79B8FF"> --arg</span><span style="color:#9ECBFF"> p</span><span style="color:#9ECBFF"> &quot;</span><span style="color:#E1E4E8">$PREFIX</span><span style="color:#9ECBFF">&quot;</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#9ECBFF">    &#39;.tree[] | select(.type == &quot;blob&quot;) | select(.path | startswith($p + &quot;/&quot;)) | .path&#39;</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#F97583">  &gt;</span><span style="color:#9ECBFF"> files.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># 3. 各ファイルを取得し、必要に応じてディレクトリを作成する</span></span>
+<span class="line"><span style="color:#F97583">while</span><span style="color:#79B8FF"> read</span><span style="color:#79B8FF"> -r</span><span style="color:#9ECBFF"> path</span><span style="color:#E1E4E8">; </span><span style="color:#F97583">do</span></span>
+<span class="line"><span style="color:#B392F0">  mkdir</span><span style="color:#79B8FF"> -p</span><span style="color:#9ECBFF"> &quot;$(</span><span style="color:#B392F0">dirname</span><span style="color:#9ECBFF"> &quot;</span><span style="color:#E1E4E8">$path</span><span style="color:#9ECBFF">&quot;)&quot;</span></span>
+<span class="line"><span style="color:#B392F0">  curl</span><span style="color:#79B8FF"> -sL</span><span style="color:#9ECBFF"> &quot;${</span><span style="color:#E1E4E8">AUTH</span><span style="color:#9ECBFF">[</span><span style="color:#F97583">@</span><span style="color:#9ECBFF">]}&quot;</span><span style="color:#79B8FF"> -o</span><span style="color:#9ECBFF"> &quot;</span><span style="color:#E1E4E8">$path</span><span style="color:#9ECBFF">&quot;</span><span style="color:#79B8FF"> \</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;https://raw.githubusercontent.com/</span><span style="color:#E1E4E8">$OWNER</span><span style="color:#9ECBFF">/</span><span style="color:#E1E4E8">$REPO</span><span style="color:#9ECBFF">/</span><span style="color:#E1E4E8">$REF</span><span style="color:#9ECBFF">/</span><span style="color:#E1E4E8">$path</span><span style="color:#9ECBFF">&quot;</span></span>
+<span class="line"><span style="color:#F97583">done</span><span style="color:#F97583"> &lt;</span><span style="color:#E1E4E8"> files.txt</span></span></code></pre>
+<p>運用上の注意が2点あります。1つ目はレスポンスヘッダーを確認することです。<code>X-RateLimit-Remaining</code> が残りの枠を、<code>X-RateLimit-Reset</code> が枠が回復する時刻を示します。未認証の枠は IP ごとに1時間あたり60リクエストなので、トークンなしでは200ファイルのフォルダは途中で失敗します。2つ目は、<code>raw.githubusercontent.com</code> はプライベートリポジトリに対して <code>Authorization</code> ヘッダーを尊重しますが、実際に送信する必要があるという点です。送らないと、削除されたファイルと見分けがつかない404が返ります。</p>
+<h2 id="方法5--フォルダから1ファイルだけ取得する">方法5 — フォルダから1ファイルだけ取得する</h2>
+<p>フォルダ自体が不要なこともあります。すべてのファイルには、直接ダウンロードできる raw URL があります。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="plaintext"><code><span class="line"><span>https://raw.githubusercontent.com/{owner}/{repo}/{ref}/{path}</span></span></code></pre>
+<p>GitHub の UI でファイルを開き <strong>Raw</strong> をクリックします（または右クリックして「リンク先を保存…」を選びます）。通常の <code>/blob/</code> URL に <code>?raw=true</code> を付けても同じ結果になります。3ファイル程度なら、この方法が本記事のどのツールよりも優れています。</p>
+<h2 id="svn-の回避策は終わった--それでもチュートリアルは勧め続けている">SVN の回避策は終わった — それでもチュートリアルは勧め続けている</h2>
+<p>約10年間、定番のアドバイスは GitHub の Subversion ブリッジを使うものでした。URL の <code>/tree/main/</code> を <code>/trunk/</code> に置き換え、そこに対して <code>svn checkout</code> や <code>svn export</code> を実行すると、Git に触れずに単一のディレクトリをチェックアウトできました。</p>
+<p>そのブリッジはもう存在しません。GitHub は2023年1月に <a href="https://github.blog/news-insights/product-news/sunsetting-subversion-support/">Subversion サポートの終了を告知</a> し、残っている利用者を洗い出すために2023年11月と12月に2回のブラウンアウトを実施したうえで、<a href="https://github.blog/changelog/2024-01-08-subversion-has-been-sunset/">2024年1月8日に Subversion プロトコルを完全に削除</a> しました。GitHub Enterprise Server もバージョン3.13で追随しています。あわせて <code>git archive --remote</code> も使えなくなりました。これはサーバー側の <code>upload-archive</code> サービスを必要としますが、GitHub はそれを有効化したことがありません。パスの書式をどう工夫しても、このコマンドはプロトコルエラーで失敗します。</p>
+<p>あるガイドが最初の方法として <code>svn checkout</code> を挙げているなら、そのガイドは削除以前に書かれたものであり、他のアドバイスも吟味する価値があります。代わりに sparse checkout、Trees API、またはブラウザツールを使いましょう。</p>
+<h2 id="どの方法を選ぶべきか">どの方法を選ぶべきか</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>最終的に得られるもの</th>
+<th>プライベートリポジトリ</th>
+<th>LFS 対応</th>
+<th>主なコスト</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ブラウザ型フォルダダウンローダー</td>
+<td>フォルダの ZIP</td>
+<td>可能（fine-grained トークンを使用）</td>
+<td>可能（ツールが LFS メディアを取得する場合）</td>
+<td>正しい URL と、切り捨てを考慮したツールが必要</td>
+</tr>
+<tr>
+<td>リポジトリ ZIP</td>
+<td>ブランチ全体の ZIP</td>
+<td>可能（API の zipball 経由）</td>
+<td>ポインタファイルのみ</td>
+<td>通信量と時間がフォルダではなくリポジトリに比例する</td>
+</tr>
+<tr>
+<td><code>git sparse-checkout</code></td>
+<td>フォルダの実際の Git チェックアウト</td>
+<td>可能（認証情報を使用）</td>
+<td>可能（Git LFS のインストールが必要）</td>
+<td>クリーンなアーカイブではなく、余分な Git オブジェクトが付く</td>
+</tr>
+<tr>
+<td>REST API + <code>curl</code></td>
+<td>スクリプトで指定したファイルだけ</td>
+<td>可能（トークンを使用）</td>
+<td>対処しない限りポインタファイル</td>
+<td>スクリプトとレート制限の管理を自分で行う</td>
+</tr>
+<tr>
+<td>Raw ファイル URL</td>
+<td>個別のファイル</td>
+<td>可能（認証ヘッダーを使用）</td>
+<td>対処しない限りポインタファイル</td>
+<td>手作業で1ファイルずつ</td>
+</tr>
+</tbody>
+</table>
+<h2 id="トラブルシューティング実際に遭遇する7つの失敗">トラブルシューティング：実際に遭遇する7つの失敗</h2>
+<p><strong>1. 明らかに存在するリポジトリで404が返る。</strong> そのリポジトリはプライベートで、リクエストが匿名になっています。トークンを送信してください。自動化する場合は、広い <code>repo</code> スコープを持つ classic トークンではなく、特定のリポジトリに限定して Contents を読み取り専用にした fine-grained トークンを使ってください。</p>
+<p><strong>2. 長いダウンロードの途中で <code>403</code> が返る。</strong> API のレート制限に達しています。未認証で1時間あたり60回、トークンがあれば5,000回です。リセット時刻は <code>X-RateLimit-Reset</code> ヘッダーにあります。認証を行うか、ディレクトリごとに1リクエストではなくサブツリー全体を1回で列挙するツールを使いましょう。</p>
+<p><strong>3. 進行状況が終わらない、または ZIP にファイルが欠けている。</strong> 再帰的な tree 一覧が切り捨てられたときの典型的な症状です。API レスポンスの <code>&quot;truncated&quot;: true</code> で確認し、ルートから再帰するのではなく、サブツリーを1階層ずつ取得してください。</p>
+<p><strong>4. ファイルサイズが約130バイトしかない。</strong> それは <code>version https://git-lfs.github.com/spec/v1</code> で始まる Git LFS のポインタです。実体は <code>https://media.githubusercontent.com/media/{owner}/{repo}/{ref}/{path}</code> にあります。Git LFS をインストールしてクローンするか、エンドポイントを自動で切り替えるツールを使ってください。</p>
+<p><strong>5. ZIP に期待したフォルダが入っていない。</strong> 想定とは別のブランチを見ているか、公式 ZIP の場合はブランチのルートを見ているので、まずフォルダの中に入る必要があります。URL をコピーする前にブランチセレクタを確認してください。</p>
+<p><strong>6. サブモジュールがあるはずの場所が空のフォルダになっている。</strong> サブモジュールは親リポジトリ内のファイルではなく、特別なエントリで参照される別のリポジトリです。中身を取得するにはサブモジュール自身の URL をクローンしてください。</p>
+<p><strong>7. ダウンロードがブロックされる、またはファイルが黙ってスキップされる。</strong> コンテンツフィルターがファイル名を検知することがあり、強力な広告ブロッカーやプライバシー拡張機能が並列ダウンロードを壊すこともあります。そのサイトで拡張機能を無効にして再試行し、ツールのステータスログでスキップされたファイル名を確認してください。</p>
+<h2 id="faq">FAQ</h2>
+<p><strong>プライベートリポジトリからフォルダをダウンロードできますか？</strong> はい。本記事のどの方法も対応していますが、いずれも認証が必要です。API ベースのツールでは Contents の読み取り権限だけを持つパーソナルアクセストークン、クローンでは通常の Git 認証情報を使います。レビューしていない第三者サイトに、広いスコープのトークンを貼り付けないでください。</p>
+<p><strong>フォルダをダウンロードすると Git の履歴は保持されますか？</strong> いいえ。ZIP アーカイブと API によるダウンロードは、現在の状態のスナップショットです。履歴が残るのは <code>git clone</code> を使う方法だけで、sparse checkout もこれに含まれます。</p>
+<p><strong>目的のフォルダよりダウンロードサイズがずっと大きいのはなぜですか？</strong> フォルダではなくリポジトリの ZIP をダウンロードしているか、フォルダに大きなバイナリ資産が含まれているためです。ツールのせいにする前に、GitHub 上でそのフォルダ自体のサイズと比較してください。</p>
+<p><strong>特定のブランチ、タグ、コミットからフォルダをダウンロードできますか？</strong> はい。<code>/tree/</code> の後ろのパス要素が ref なので、<code>https://github.com/owner/repo/tree/v2.1.0/path/to/folder</code> は動作しますし、Trees API にタグやコミット SHA を渡すこともできます。</p>
+<p><strong>GitHub からコードをダウンロードするのは安全ですか？</strong> 通信経路は安全ですが、内容はユーザーがアップロードしたものでありレビューされていません。再利用する前にリポジトリのライセンスを確認し、実行する前にコードを読み、トークンの扱いについては当サイトの <a href="../../../ja/faq/index.html">FAQ</a> のプライバシーに関する記載をご覧ください。</p>
+<h2 id="要点">要点</h2>
+<ul>
+<li>GitHub が単一のフォルダをダウンロードできないのは、Git のオブジェクトモデルがディレクトリをスナップショット内の tree としてしか定義していないためです。フォルダの切り出しはサーバー機能ではなく、クライアント側の組み立て作業です。</li>
+<li>単発のダウンロードなら、ブランチ名・切り捨て・LFS・レート制限を正しく扱うブラウザツールであれば、何もインストールせずに数秒で完了します。</li>
+<li>今後も更新を取得し続ける作業には、<code>git clone --filter=blob:none --sparse</code> と <code>git sparse-checkout set</code> を使います。最初にすべてをダウンロードする古い <code>.git/info/sparse-checkout</code> の手順は使わないでください。</li>
+<li>自動化には Trees API がサブツリー全体を1回のリクエストで列挙します。10万エントリの上限と、1時間あたり60回対5,000回の制限を忘れないでください。</li>
+<li>今も <code>svn checkout</code> を最初に挙げているガイドは無視してください。その手段は2024年1月8日に GitHub から削除されました。</li>
+</ul>
+<p>準備の手間を省きたいですか？フォルダの URL を <a href="../../../ja/index.html">GitDownloader ツール</a> に貼り付ければ、公開・プライベートを問わず、LFS も含めてそのディレクトリだけをブラウザ内でまとめます。</p></div></div></article></main><footer class="border-t border-line/70 bg-ink-950"><div class="container-x py-14"><div class="grid gap-10 md:grid-cols-[1.6fr_1fr_1fr_1fr]"><div class="max-w-sm"><a href="../../../ja/index.html" class="flex items-center gap-2.5"><svg class="h-8 w-8" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GitDownloader"><defs><linearGradient id="gd-logo" x1="8" y1="4" x2="40" y2="44" gradientUnits="userSpaceOnUse"><stop stop-color="#7dd3fc"></stop><stop offset="0.5" stop-color="#0ea5e9"></stop><stop offset="1" stop-color="#0369a1"></stop></linearGradient></defs><circle cx="24" cy="24" r="22" fill="url(#gd-logo)"></circle><!-- solid folder: stays legible down to 16px, unlike a stroked outline --><path d="M12 18.5v-2.9a2.1 2.1 0 0 1 2.1-2.1h6.4l2.6 3.2H34a2.1 2.1 0 0 1 2.1 2.1V32a2.4 2.4 0 0 1-2.4 2.4H14.4a2.4 2.4 0 0 1-2.4-2.4z" fill="#f0f9ff"></path><!-- download arrow --><path d="M24 21.7v6.8" stroke="#075985" stroke-width="3.2" stroke-linecap="round"></path><path d="m20.2 24.7 3.8 3.8 3.8-3.8" stroke="#075985" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="text-lg font-bold text-white">GitDownloader</span></a><p class="mt-4 text-sm leading-relaxed text-slate-400">GitHubの任意のフォルダやファイルを手早くZIPでダウンロードする方法。</p><div class="mt-5 flex gap-2"><a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="btn-ghost" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a><a href="mailto:support@gitdownloader.com" class="btn-ghost" aria-label="Email"><i class="fa-solid fa-envelope" aria-hidden="true"></i></a></div></div><div><h3 class="text-sm font-semibold text-white">製品</h3><ul class="mt-4 space-y-2.5"><li><a href="../../../ja/index.html" class="text-sm text-slate-400 transition hover:text-brand-400">GitHubフォルダをダウンロード</a></li><li><a href="../../../ja/faq/index.html" class="text-sm text-slate-400 transition hover:text-brand-400">FAQ</a></li><li><a href="../../../ja/blog/index.html" class="text-sm text-slate-400 transition hover:text-brand-400">ブログ</a></li></ul></div><div><h3 class="text-sm font-semibold text-white">法務</h3><ul class="mt-4 space-y-2.5"><li><a href="../../../ja/privacy/index.html" class="text-sm text-slate-400 transition hover:text-brand-400">プライバシー</a></li><li><a href="../../../ja/terms/index.html" class="text-sm text-slate-400 transition hover:text-brand-400">利用規約</a></li></ul></div><div><h3 class="text-sm font-semibold text-white">リソース</h3><ul class="mt-4 space-y-2.5"><li><a href="https://docs.github.com/" target="_blank" rel="noopener noreferrer" class="text-sm text-slate-400 transition hover:text-brand-400">GitHub Docs</a></li><li><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens" target="_blank" rel="noopener noreferrer" class="text-sm text-slate-400 transition hover:text-brand-400">トークンを作成</a></li></ul></div></div><div class="mt-12 flex flex-col gap-3 border-t border-line/70 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between"><p>© 2026 GitDownloader. 無断転載を禁じます。</p><p class="max-w-lg">GitHub, Inc.とは提携していません。リポジトリの内容は各所有者に帰属します。</p></div></div></footer>
+</body></html>
